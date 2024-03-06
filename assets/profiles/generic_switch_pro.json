@@ -1,0 +1,108 @@
+{
+  "name": "Switch Pro",
+  "inputs": [
+    {
+      "type": "button",
+      "x": 715,
+      "y": 300,
+      "width": 75,
+      "texture": "generic/button-a",
+      "button": 0
+    },
+    {
+      "type": "button",
+      "x": 650,
+      "y": 235,
+      "width": 75,
+      "texture": "generic/button-b",
+      "button": 1
+    },
+    {
+      "type": "button",
+      "x": 650,
+      "y": 365,
+      "width": 75,
+      "texture": "generic/button-x",
+      "button": 2
+    },
+    {
+      "type": "button",
+      "x": 585,
+      "y": 300,
+      "width": 75,
+      "texture": "generic/button-y",
+      "button": 3
+    },
+    {
+      "type": "button",
+      "x": 320,
+      "y": 375,
+      "width": 50,
+      "texture": "generic/button-minus",
+      "button": 4
+    },
+    {
+      "type": "button",
+      "x": 452,
+      "y": 325,
+      "width": 50,
+      "texture": "generic/button-empty",
+      "button": 5
+    },
+    {
+      "type": "button",
+      "x": 505,
+      "y": 375,
+      "width": 50,
+      "texture": "generic/button-plus",
+      "button": 6
+    },
+    {
+      "type": "button",
+      "x": 373,
+      "y": 325,
+      "width": 50,
+      "texture": "generic/button-empty",
+      "button": 15
+    },
+    {
+      "type": "analog_stick",
+      "x": 150,
+      "y": 300,
+      "width": 150,
+      "texture": "generic/stick-underlay",
+      "stick_overlay": "generic/stick",
+      "button_overlay": "generic/stick-press",
+      "x_axis": 0,
+      "y_axis": 1,
+      "button": 7
+    },
+    {
+      "type": "analog_stick",
+      "x": 500,
+      "y": 200,
+      "width": 150,
+      "texture": "generic/stick-underlay",
+      "stick_overlay": "generic/stick",
+      "button_overlay": "generic/stick-press",
+      "x_axis": 2,
+      "y_axis": 3,
+      "button": 8
+    },
+    {
+      "type": "hitpad_buttons",
+      "x": 300,
+      "y": 200,
+      "width": 150,
+      "texture": "generic/hitpad",
+      "up_overlay": "generic/hitpad-overlay-up",
+      "down_overlay": "generic/hitpad-overlay-down",
+      "left_overlay": "generic/hitpad-overlay-left",
+      "right_overlay": "generic/hitpad-overlay-right",
+      "up_button": 11,
+      "down_button": 12,
+      "left_button": 13,
+      "right_button": 14
+    }
+  ]
+}
