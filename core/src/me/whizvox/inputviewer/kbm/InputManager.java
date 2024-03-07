@@ -6,7 +6,7 @@ import com.badlogic.gdx.InputAdapter;
 import java.util.HashMap;
 import java.util.Map;
 
-public class KBMInputProcessor extends InputAdapter {
+public class InputManager extends InputAdapter {
 
   private static final int
       MOD_LEFT_SHIFT = 1,
@@ -22,7 +22,7 @@ public class KBMInputProcessor extends InputAdapter {
   private final Map<String, Keybinding.Pair> keybindings;
   private int modifiers;
 
-  public KBMInputProcessor() {
+  public InputManager() {
     this.keybindings = new HashMap<>();
     modifiers = 0;
   }
@@ -46,6 +46,13 @@ public class KBMInputProcessor extends InputAdapter {
 
   public void addKeybinding(String key, Keybinding keybinding, Keybinding.OnInvoke onInvoke) {
     keybindings.put(key, new Keybinding.Pair(keybinding, onInvoke));
+  }
+
+  public void removeKeybinding(String key) {
+    keybindings.remove(key);
+  }
+
+  public void tick() {
   }
 
   @Override

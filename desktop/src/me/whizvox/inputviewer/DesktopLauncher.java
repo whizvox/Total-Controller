@@ -2,7 +2,6 @@ package me.whizvox.inputviewer;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import me.whizvox.inputviewer.InputViewer;
 
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DesktopLauncher {
@@ -10,6 +9,6 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setTitle("Total Controller");
-		new Lwjgl3Application(new InputViewer(), config);
+		new Lwjgl3Application(new TotalController(), config);
 	}
 }
