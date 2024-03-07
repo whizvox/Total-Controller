@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import me.whizvox.inputviewer.controller.ControllerState;
 
-public class ControllerAnalogStick extends ControllerInput {
+public class AnalogStick extends ControllerInput {
 
   public final Texture stickOverlay;
   public final Texture buttonOverlay;
@@ -15,7 +15,7 @@ public class ControllerAnalogStick extends ControllerInput {
 
   private final float maxXOff, maxYOff;
 
-  public ControllerAnalogStick(int x, int y, float size, Texture texture, Texture stickOverlay, Texture buttonOverlay, Color overlayTint, int xAxis, int yAxis, int button) {
+  public AnalogStick(int x, int y, float size, Texture texture, Texture stickOverlay, Texture buttonOverlay, Color overlayTint, int xAxis, int yAxis, int button) {
     super(x, y, size, texture);
     this.stickOverlay = stickOverlay;
     this.buttonOverlay = buttonOverlay;

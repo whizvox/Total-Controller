@@ -13,10 +13,13 @@ public class ControllerState {
   private final Map<Integer, Float> axes;
   private final Set<Integer> buttons;
 
+  private boolean connected;
+
   public ControllerState(String id) {
     this.id = id;
     axes = new HashMap<>();
     buttons = new HashSet<>();
+    connected = true;
   }
 
   public boolean isController(Controller controller) {
@@ -31,6 +34,10 @@ public class ControllerState {
     return axes.getOrDefault(axis, 0.0F);
   }
 
+  public boolean isConnected() {
+    return connected;
+  }
+
   public void setButton(int button, boolean value) {
     if (value) {
       buttons.add(button);
@@ -41,6 +48,10 @@ public class ControllerState {
 
   public void setAxis(int axis, float value) {
     axes.put(axis, value);
+  }
+
+  public void setConnected(boolean connected) {
+    this.connected = connected;
   }
 
 }

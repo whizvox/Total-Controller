@@ -5,14 +5,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import me.whizvox.inputviewer.controller.ControllerState;
 
-public abstract class ControllerHitPad extends ControllerInput {
+public abstract class HitPad extends ControllerInput {
 
   public static final int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3;
 
   public final Texture[] overlayTextures;
   public final Color overlayTint;
 
-  public ControllerHitPad(int x, int y, float size, Texture texture, Texture[] overlayTextures, Color overlayTint) {
+  public HitPad(int x, int y, float size, Texture texture, Texture[] overlayTextures, Color overlayTint) {
     super(x, y, size, texture);
     this.overlayTextures = overlayTextures;
     this.overlayTint = overlayTint;

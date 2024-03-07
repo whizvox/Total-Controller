@@ -2,22 +2,19 @@ package me.whizvox.inputviewer;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.controllers.Controllers;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import me.whizvox.inputviewer.controller.ControllerProfile;
 import me.whizvox.inputviewer.controller.ControllerStateUpdater;
 import me.whizvox.inputviewer.controller.ControllerState;
 import me.whizvox.inputviewer.controller.ProfileDeserializer;
+import me.whizvox.inputviewer.kbm.KBMInputProcessor;
+import me.whizvox.inputviewer.kbm.Keybinding;
 
 import java.io.IOException;
 
@@ -28,10 +25,19 @@ public class InputViewer extends ApplicationAdapter {
 	private ProfileDeserializer profileDeserializer;
 	private ControllerProfile profile;
 	private ControllerState controllerState;
+	private KBMInputProcessor inputProcessor;
 
 	private Viewport viewport;
 
 	private ShapeRenderer shaper;
+
+	private void deserializeProfile() {
+		try {
+			profile = profileDeserializer.deserialize(Gdx.files.local("profiles/generic_switch_pro.json"));
+		} catch (IOException e) {
+			throw new RuntimeException("Could not deserialize profile", e);
+		}
+	}
 
 	@Override
 	public void create() {
@@ -39,32 +45,33 @@ public class InputViewer extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		shaper = new ShapeRenderer();
 
-		Controller controller = Controllers.getCurrent();
-		if (controller == null) {
-			throw new RuntimeException("Controller not plugged in!");
-		}
-		controllerState = new ControllerState(controller.getUniqueId());
-		controllerStateUpdater = new ControllerStateUpdater(controllerState);
+		controllerStateUpdater = new ControllerStateUpdater();
+		controllerState = controllerStateUpdater.getCurrentState();
 		profileDeserializer = new ProfileDeserializer();
-    try {
-      profile = profileDeserializer.deserialize(Gdx.files.local("profiles/generic_switch_pro.json"));
-    } catch (IOException e) {
-      throw new RuntimeException("Could not deserialize profile", e);
-    }
+		deserializeProfile();
 
     Controllers.addListener(controllerStateUpdater);
+		Gdx.input.setInputProcessor(inputProcessor = new KBMInputProcessor());
+		inputProcessor.addKeybinding("reload", new Keybinding(Input.Keys.R, false, false, true, false), kb -> deserializeProfile());
 	}
 
 	@Override
 	public void render() {
-		ScreenUtils.clear(0, 0, 0, 1);
-		shaper.begin(ShapeRenderer.ShapeType.Filled);
+		ScreenUtils.clear(profile.bgColor);
+		/*shaper.begin(ShapeRenderer.ShapeType.Filled);
 		shaper.setColor(Color.BLUE);
 		shaper.rect(0, 0, 800, 600);
-		shaper.end();
+		shaper.end();*/
 
 		batch.begin();
-		profile.render(batch, controllerState);
+		if ((controllerState == null && controllerStateUpdater.hasCurrent()) || (controllerState != null && !controllerState.isConnected())) {
+			controllerState = controllerStateUpdater.getCurrentState();
+		}
+		if (controllerState == null) {
+
+		} else {
+			profile.render(batch, controllerState);
+		}
 		batch.end();
 	}
 

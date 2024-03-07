@@ -5,13 +5,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import me.whizvox.inputviewer.controller.ControllerState;
 
-public class ControllerButton extends ControllerInput {
+public class Button extends ControllerInput {
 
   public final Texture overlayTexture;
   public final Color overlayTint;
   public final int button;
 
-  public ControllerButton(int x, int y, float size, Texture texture, Texture overlayTexture, Color overlayTint, int button) {
+  public Button(int x, int y, float size, Texture texture, Texture overlayTexture, Color overlayTint, int button) {
     super(x, y, size, texture);
     this.overlayTexture = overlayTexture;
     this.overlayTint = overlayTint;

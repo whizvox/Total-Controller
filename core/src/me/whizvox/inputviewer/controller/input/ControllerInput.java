@@ -2,6 +2,7 @@ package me.whizvox.inputviewer.controller.input;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Null;
 import me.whizvox.inputviewer.controller.ControllerState;
 
 public abstract class ControllerInput {
@@ -10,7 +11,7 @@ public abstract class ControllerInput {
   public final float size;
   public final Texture texture;
 
-  private final float width, height, xOff, yOff;
+  public final float width, height, xOff, yOff;
 
   public ControllerInput(int x, int y, float size, Texture texture) {
     this.x = x;
@@ -24,10 +25,8 @@ public abstract class ControllerInput {
     yOff = height / 2.0F;
   }
 
-  protected final void draw(SpriteBatch batch, float x, float y, Texture texture) {
-    if (size == 1.0F) {
-      batch.draw(texture, x - xOff, y - yOff);
-    } else {
+  protected final void draw(SpriteBatch batch, float x, float y, @Null Texture texture) {
+    if (texture != null) {
       batch.draw(texture, x - xOff, y - yOff, width, height);
     }
   }

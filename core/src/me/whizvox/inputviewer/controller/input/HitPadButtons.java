@@ -4,11 +4,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import me.whizvox.inputviewer.controller.ControllerState;
 
-public class ControllerHitPadButtons extends ControllerHitPad {
+public class HitPadButtons extends HitPad {
 
   public final int[] buttons;
 
-  public ControllerHitPadButtons(int x, int y, float size, Texture texture, Texture[] overlayTextures, Color overlayTint, int[] buttons) {
+  public HitPadButtons(int x, int y, float size, Texture texture, Texture[] overlayTextures, Color overlayTint, int[] buttons) {
     super(x, y, size, texture, overlayTextures, overlayTint);
     this.buttons = buttons;
   }

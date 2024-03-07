@@ -1,5 +1,6 @@
 {
   "name": "Switch Pro",
+  "bg_color": "#0000FF",
   "inputs": [
     {
       "type": "button",
@@ -35,7 +36,7 @@
     },
     {
       "type": "button",
-      "x": 320,
+      "x": 308,
       "y": 375,
       "width": 50,
       "texture": "generic/button-minus",
@@ -43,7 +44,7 @@
     },
     {
       "type": "button",
-      "x": 452,
+      "x": 440,
       "y": 325,
       "width": 50,
       "texture": "generic/button-empty",
@@ -51,7 +52,7 @@
     },
     {
       "type": "button",
-      "x": 505,
+      "x": 492,
       "y": 375,
       "width": 50,
       "texture": "generic/button-plus",
@@ -59,7 +60,7 @@
     },
     {
       "type": "button",
-      "x": 373,
+      "x": 361,
       "y": 325,
       "width": 50,
       "texture": "generic/button-empty",
@@ -103,6 +104,38 @@
       "down_button": 12,
       "left_button": 13,
       "right_button": 14
+    },
+    {
+      "type": "button",
+      "x": 175,
+      "y": 440,
+      "height": 75,
+      "texture": "generic/left-button",
+      "button": 9
+    },
+    {
+      "type": "button",
+      "x": 625,
+      "y": 440,
+      "height": 75,
+      "texture": "generic/right-button",
+      "button": 10
+    },
+    {
+      "type": "analog_button",
+      "x": 250,
+      "y": 440,
+      "height": 75,
+      "texture": "generic/left-trigger",
+      "axis": 4
+    },
+    {
+      "type": "analog_button",
+      "x": 550,
+      "y": 440,
+      "height": 75,
+      "texture": "generic/right-trigger",
+      "axis": 5
     }
   ]
 }
