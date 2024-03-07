@@ -1,5 +1,5 @@
 sourceCompatibility = 1.8
-sourceSets.main.java.srcDirs = [ "src/" ]
+sourceSets.main.java.srcDirs = ["src/"]
 sourceSets.main.resources.srcDirs = ["../assets"]
 
 project.ext.mainClassName = "me.whizvox.inputviewer.DesktopLauncher"
@@ -8,41 +8,46 @@ project.ext.assetsDir = new File("../assets")
 import org.gradle.internal.os.OperatingSystem
 
 tasks.register('run', JavaExec) {
-    dependsOn classes
-    mainClass = project.mainClassName
-    classpath = sourceSets.main.runtimeClasspath
-    standardInput = System.in
-    workingDir = project.assetsDir
-    ignoreExitValue = true
+  dependsOn classes
+  mainClass = project.mainClassName
+  classpath = sourceSets.main.runtimeClasspath
+  standardInput = System.in
+  // I don't know why the assets directory is the run directory by default. Maybe it has something to do with libGDX
+  // supporting other platforms that requires this, but because this only targets desktop, I don't need to worry about
+  // whatever this was supposed to accomplish. If I'm wrong, please feel free to yell at me.
+  //workingDir = project.assetsDir
+  mkdir "run"
+  workingDir = "run"
+  ignoreExitValue = true
 
-    if (OperatingSystem.current() == OperatingSystem.MAC_OS) {
-        // Required to run on macOS
-        jvmArgs += "-XstartOnFirstThread"
-    }
+  if (OperatingSystem.current() == OperatingSystem.MAC_OS) {
+    // Required to run on macOS
+    jvmArgs += "-XstartOnFirstThread"
+  }
 }
 
 tasks.register('debug', JavaExec) {
-    dependsOn classes
-    mainClass = project.mainClassName
-    classpath = sourceSets.main.runtimeClasspath
-    standardInput = System.in
-    workingDir = project.assetsDir
-    ignoreExitValue = true
-    debug = true
+  dependsOn classes
+  mainClass = project.mainClassName
+  classpath = sourceSets.main.runtimeClasspath
+  standardInput = System.in
+  workingDir = project.assetsDir
+  ignoreExitValue = true
+  debug = true
 }
 
 tasks.register('dist', Jar) {
-    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
-    manifest {
-        attributes 'Main-Class': project.mainClassName
-    }
-    dependsOn configurations.runtimeClasspath
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-    with jar
+  duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+  manifest {
+    attributes 'Main-Class': project.mainClassName
+  }
+  dependsOn configurations.runtimeClasspath
+  from {
+    configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+  [ "**/*.psd" ].each { exclude it }
+  with jar
 }
-
 
 dist.dependsOn classes
 

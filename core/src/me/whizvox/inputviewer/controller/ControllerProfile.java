@@ -11,14 +11,12 @@ import java.util.List;
 public class ControllerProfile implements Disposable {
 
   public String name;
-  public Color bgColor;
   public final List<ControllerInput> inputs;
 
   private final List<Texture> textures;
 
-  public ControllerProfile(String name, Color bgColor, List<ControllerInput> inputs, List<Texture> textures) {
+  public ControllerProfile(String name, List<ControllerInput> inputs, List<Texture> textures) {
     this.name = name;
-    this.bgColor = bgColor;
     this.inputs = inputs;
     this.textures = textures;
   }

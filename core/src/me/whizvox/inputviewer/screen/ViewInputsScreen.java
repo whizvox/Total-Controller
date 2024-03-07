@@ -4,9 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import me.whizvox.inputviewer.TotalController;
 import me.whizvox.inputviewer.controller.ControllerProfile;
 import me.whizvox.inputviewer.controller.ControllerState;
@@ -62,10 +60,6 @@ public class ViewInputsScreen implements Screen {
 
   @Override
   public void render(Renderer renderer) {
-    renderer.beginShaper(ShapeRenderer.ShapeType.Filled);
-    Viewport viewport = renderer.getViewport();
-    renderer.getShaper().setColor(profile.bgColor);
-    renderer.getShaper().rect(-viewport.getWorldWidth() / 2, -viewport.getWorldHeight() / 2, viewport.getWorldWidth(), viewport.getWorldHeight());
     renderer.beginBatch();
     if (currentState == null) {
       renderer.draw(noControllerText);

@@ -115,3 +115,6 @@ Thumbs.db
 
 ## Photoshop
 *.psd
+
+## Desktop Run Directory
+/desktop/run

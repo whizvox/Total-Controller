@@ -2,7 +2,6 @@ package me.whizvox.inputviewer.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,7 +9,6 @@ import me.whizvox.inputviewer.controller.input.ControllerInput;
 import me.whizvox.inputviewer.controller.input.DefaultInputDeserializers;
 import me.whizvox.inputviewer.controller.input.InputDeserializationContext;
 import me.whizvox.inputviewer.controller.input.InputDeserializer;
-import me.whizvox.inputviewer.util.JsonHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,7 +45,6 @@ public class ProfileDeserializer {
       root = MAPPER.readTree(in);
     }
     String name = root.get("name").asText();
-    Color bgColor = JsonHelper.getColor(root, "bg_color", Color.BLACK);
     InputDeserializationContext context = new InputDeserializationContext();
     List<ControllerInput> inputs = new ArrayList<>();
     root.get("inputs").forEach(node -> {
@@ -100,7 +97,7 @@ public class ProfileDeserializer {
         inputs.add(input);
       }
     });
-    return new ControllerProfile(name, bgColor, inputs, context.textures().collect(Collectors.toList()));
+    return new ControllerProfile(name, inputs, context.textures().collect(Collectors.toList()));
   }
 
 }

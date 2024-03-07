@@ -3,12 +3,27 @@ package me.whizvox.inputviewer.util;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import me.whizvox.inputviewer.util.json.ColorDeserializer;
+import me.whizvox.inputviewer.util.json.ColorSerializer;
 
 import java.util.function.Function;
 
 public class JsonHelper {
 
-  public static final String TAG = JsonHelper.class.getSimpleName();
+  private static final String TAG = JsonHelper.class.getSimpleName();
+
+  public static final ObjectMapper MAPPER = new ObjectMapper();
+
+  static {
+    SimpleModule module = new SimpleModule();
+    module.addSerializer(Color.class, new ColorSerializer());
+    module.addDeserializer(Color.class, new ColorDeserializer());
+    MAPPER.registerModule(module);
+    MAPPER.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+  }
 
   public static <T> T getOrDefault(JsonNode node, String name, T defaultValue, Function<JsonNode, T> parser) {
     if (node.has(name)) {
@@ -30,7 +45,6 @@ public class JsonHelper {
   }
 
   public static Color getColor(JsonNode node, String name, Color defaultValue) {
-    //return getOrDefault(node, name, defaultValue, n -> new Color(n.asInt()));
     JsonNode n = node.get(name);
     if (n != null) {
       if (n.isTextual()) {
