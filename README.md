@@ -21,3 +21,8 @@ Execute `./gradlew desktop:run`.
 ## License
 
 This project is licensed under the MIT License, a copy of which is provided in `LICENSE.txt`.
+
+## Credits
+
+- Font used is [Red Hat Display](https://mckltype.com/red-hat/) by [MCKL](https://mckltype.com/), licensed under the
+- [Open Font License](https://openfontlicense.org/)

@@ -1,10 +1,13 @@
 package me.whizvox.inputviewer.render;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Renderer implements Disposable {
@@ -22,8 +25,13 @@ public class Renderer implements Disposable {
     shaper = new ShapeRenderer();
     batchRendering = false;
     shaperRendering = false;
-    viewport = new FillViewport(800, 600);
-    font = new BitmapFont();
+    viewport = new FitViewport(800, 600);
+    FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+    parameter.size = 20;
+    parameter.magFilter = Texture.TextureFilter.Linear;
+    parameter.minFilter = Texture.TextureFilter.Linear;
+    FreeTypeFontGenerator gen = new FreeTypeFontGenerator(Gdx.files.classpath("RedHatDisplay-Medium.ttf"));
+    font = gen.generateFont(parameter);
     //textureCache = new HashMap<>();
   }
 

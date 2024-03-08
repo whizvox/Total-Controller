@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import me.whizvox.inputviewer.kbm.InputManager;
 import me.whizvox.inputviewer.render.Renderer;
 import me.whizvox.inputviewer.screen.Screen;
-import me.whizvox.inputviewer.screen.ViewInputsScreen;
+import me.whizvox.inputviewer.screen.SelectProfileScreen;
 import me.whizvox.inputviewer.util.JsonHelper;
 
 import java.io.IOException;
@@ -81,7 +81,7 @@ public class TotalController extends ApplicationAdapter {
 		}
 		renderer = new Renderer();
 		input = new InputManager();
-		screen = new ViewInputsScreen();
+		screen = new SelectProfileScreen();
 		screen.create(this);
 
 		Gdx.input.setInputProcessor(input);

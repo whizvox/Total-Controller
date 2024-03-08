@@ -14,6 +14,10 @@ public class Keybinding {
     this.release = release;
   }
 
+  public Keybinding(int key) {
+    this(key, false, false, false, false);
+  }
+
   public interface OnInvoke {
 
     void invoke(Keybinding keybinding);

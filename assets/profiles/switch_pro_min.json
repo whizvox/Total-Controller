@@ -1,6 +1,5 @@
 {
-  "name": "Switch Pro",
-  "bg_color": "#0000FF",
+  "name": "Nintendo Switch Pro Controller (minimal)",
   "inputs": [
     {
       "type": "button",

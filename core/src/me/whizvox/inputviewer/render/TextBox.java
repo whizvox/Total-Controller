@@ -16,8 +16,8 @@ public class TextBox {
   public int halign;
   public boolean wrap;
   public String truncate;
-
   private final GlyphLayout glyphLayout;
+  private float width, height;
 
   public TextBox(BitmapFont font, String text, int x, int y, Color color, float targetWidth, int halign, boolean wrap, String truncate) {
     this.text = text;
@@ -30,6 +30,8 @@ public class TextBox {
     this.wrap = wrap;
     this.truncate = truncate;
     glyphLayout = new GlyphLayout();
+    width = 0;
+    height = 0;
     update();
   }
 
@@ -53,8 +55,22 @@ public class TextBox {
     this(font, text, x, y, Color.WHITE, 0.0F, Align.left, false, null);
   }
 
+  public GlyphLayout getGlyphLayout() {
+    return glyphLayout;
+  }
+
+  public float getWidth() {
+    return width;
+  }
+
+  public float getHeight() {
+    return height;
+  }
+
   public void update() {
     glyphLayout.setText(font, text, 0, text.length(), color, targetWidth, halign, wrap, truncate);
+    width = glyphLayout.width;
+    height = glyphLayout.height;
   }
 
   public TextBox setText(String text) {

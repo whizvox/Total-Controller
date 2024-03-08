@@ -1,8 +1,8 @@
 package me.whizvox.inputviewer.screen;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.controllers.Controllers;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Align;
 import me.whizvox.inputviewer.TotalController;
@@ -19,8 +19,11 @@ import java.io.IOException;
 
 public class ViewInputsScreen implements Screen {
 
-  private static final String KB_RELOAD = "displayInput.reload";
+  private static final String
+      KB_RELOAD = "displayInput.reload",
+      KB_VIEW_PROFILES = "displayInput.viewProfiles";
 
+  private final FileHandle profileFile;
   private TotalController app;
   private ControllerStateUpdater controllerStateUpdater;
   private ProfileDeserializer profileDeserializer;
@@ -28,15 +31,20 @@ public class ViewInputsScreen implements Screen {
   private ControllerState currentState;
   private TextBox noControllerText;
 
-  public ViewInputsScreen() {
+  public ViewInputsScreen(FileHandle profileFile) {
+    this.profileFile = profileFile;
   }
 
   private void deserializeProfile() {
     try {
-      profile = profileDeserializer.deserialize(Gdx.files.local("profiles/generic_switch_pro.json"));
+      profile = profileDeserializer.deserialize(profileFile);
     } catch (IOException e) {
       throw new RuntimeException("Could not deserialize profile", e);
     }
+  }
+
+  private void viewProfiles() {
+    app.setScreen(new SelectProfileScreen());
   }
 
   @Override
@@ -46,9 +54,11 @@ public class ViewInputsScreen implements Screen {
     currentState = controllerStateUpdater.getCurrentState();
     profileDeserializer = new ProfileDeserializer();
     deserializeProfile();
+    noControllerText = new TextBox(app.getRenderer().getFont(), "No controller detected", 0, 0, Color.WHITE, 0, Align.center);
+
     Controllers.addListener(controllerStateUpdater);
     app.getInput().addKeybinding(KB_RELOAD, new Keybinding(Input.Keys.R, false, false, true, false), kb -> deserializeProfile());
-    noControllerText = new TextBox(app.getRenderer().getFont(), "No controller detected", 0, 0, Color.WHITE, 0, Align.center);
+    app.getInput().addKeybinding(KB_VIEW_PROFILES, new Keybinding(Input.Keys.ESCAPE), kb -> viewProfiles());
   }
 
   @Override
@@ -73,6 +83,7 @@ public class ViewInputsScreen implements Screen {
   public void dispose() {
     Controllers.removeListener(controllerStateUpdater);
     app.getInput().removeKeybinding(KB_RELOAD);
+    app.getInput().removeKeybinding(KB_VIEW_PROFILES);
   }
 
 }
