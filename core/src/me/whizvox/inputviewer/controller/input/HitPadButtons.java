@@ -8,8 +8,8 @@ public class HitPadButtons extends HitPad {
 
   public final int[] buttons;
 
-  public HitPadButtons(int x, int y, float size, Texture texture, Texture[] overlayTextures, Color overlayTint, int[] buttons) {
-    super(x, y, size, texture, overlayTextures, overlayTint);
+  public HitPadButtons(float x, float y, float size, Texture texture, Color tint, Texture[] overlayTextures, Color overlayTint, int[] buttons) {
+    super(x, y, size, texture, tint, overlayTextures, overlayTint);
     this.buttons = buttons;
   }
 

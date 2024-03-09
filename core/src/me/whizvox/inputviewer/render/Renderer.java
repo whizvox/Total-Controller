@@ -18,8 +18,6 @@ public class Renderer implements Disposable {
   private final Viewport viewport;
   private final BitmapFont font;
 
-  //private final Map<String, Texture> textureCache;
-
   public Renderer() {
     batch = new SpriteBatch();
     shaper = new ShapeRenderer();
@@ -32,7 +30,6 @@ public class Renderer implements Disposable {
     parameter.minFilter = Texture.TextureFilter.Linear;
     FreeTypeFontGenerator gen = new FreeTypeFontGenerator(Gdx.files.classpath("RedHatDisplay-Medium.ttf"));
     font = gen.generateFont(parameter);
-    //textureCache = new HashMap<>();
   }
 
   public SpriteBatch getBatch() {
@@ -50,26 +47,6 @@ public class Renderer implements Disposable {
   public Viewport getViewport() {
     return viewport;
   }
-
-  /*public Texture getTexture(String path) {
-    return textureCache.computeIfAbsent(path, s -> new Texture(Gdx.files.internal(path + ".png")));
-  }
-
-  public void disposeTexture(String path) {
-    Texture texture = textureCache.remove(path);
-    if (texture != null) {
-      texture.dispose();
-    }
-  }
-
-  public void disposeTextures(Iterable<String> paths) {
-    paths.forEach(this::disposeTexture);
-  }
-
-  public Texture reloadTexture(String path) {
-    disposeTexture(path);
-    return getTexture(path);
-  }*/
 
   public void end() {
     if (batchRendering) {
@@ -116,8 +93,6 @@ public class Renderer implements Disposable {
 
   @Override
   public void dispose() {
-    /*textureCache.values().forEach(Texture::dispose);
-    textureCache.clear();*/
     batch.dispose();
     shaper.dispose();
   }

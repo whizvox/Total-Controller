@@ -6,10 +6,10 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Align;
 import me.whizvox.inputviewer.TotalController;
-import me.whizvox.inputviewer.controller.ControllerProfile;
 import me.whizvox.inputviewer.controller.ControllerState;
 import me.whizvox.inputviewer.controller.ControllerStateUpdater;
-import me.whizvox.inputviewer.controller.ProfileDeserializer;
+import me.whizvox.inputviewer.controller.profile.ControllerProfile;
+import me.whizvox.inputviewer.controller.profile.ProfileDeserializer;
 import me.whizvox.inputviewer.kbm.InputManager;
 import me.whizvox.inputviewer.kbm.Keybinding;
 import me.whizvox.inputviewer.render.Renderer;
@@ -52,7 +52,7 @@ public class ViewInputsScreen implements Screen {
     this.app = app;
     controllerStateUpdater = new ControllerStateUpdater();
     currentState = controllerStateUpdater.getCurrentState();
-    profileDeserializer = new ProfileDeserializer();
+    profileDeserializer = new ProfileDeserializer(app);
     deserializeProfile();
     noControllerText = new TextBox(app.getRenderer().getFont(), "No controller detected", 0, 0, Color.WHITE, 0, Align.center);
 

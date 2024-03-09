@@ -46,7 +46,7 @@ public class SelectProfileScreen implements Screen {
         if (file.type() == Files.FileType.Classpath) {
           name = "[Default] " + name;
         }
-        profileTexts.add(new TextBox(app.getRenderer().getFont(), name, -375, 100 + profileTexts.size() * 20));
+        profileTexts.add(new TextBox(app.getRenderer().getFont(), name, -375, 125 - profileTexts.size() * 30));
         profileFiles.add(file);
       } else {
         Gdx.app.log(TAG, "\"name\" property missing from profile: " + file);
@@ -69,7 +69,7 @@ public class SelectProfileScreen implements Screen {
     } else {
       profilesDir.mkdirs();
     }
-    String[] defaultProfiles = { "switch_pro_min" };
+    String[] defaultProfiles = { "switch_pro", "switch_pro_buttons", "switch_pro_solidoverlay", "switch_pro_generic" };
     for (String profileName : defaultProfiles) {
       FileHandle file = Gdx.files.classpath("profiles/" + profileName + ".json");
       if (file.exists()) {

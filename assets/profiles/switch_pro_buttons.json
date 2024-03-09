@@ -1,0 +1,127 @@
+{
+  "name": "Nintendo Switch Pro Controller (white outline, buttons only)",
+  "background": {
+    "texture": "switch_pro/buttons-only"
+  },
+  "inputs": [
+    {
+      "type": "button",
+      "x": 170.5,
+      "y": 63.5,
+      "overlay": "switch_pro/a-highlight",
+      "button": 0
+    },
+    {
+      "type": "button",
+      "x": 131.5,
+      "y": 29.5,
+      "overlay": "switch_pro/b-highlight",
+      "button": 1
+    },
+    {
+      "type": "button",
+      "x": 131.5,
+      "y": 97.5,
+      "overlay": "switch_pro/x-highlight",
+      "button": 2
+    },
+    {
+      "type": "button",
+      "x": 92.5,
+      "y": 63.5,
+      "overlay": "switch_pro/y-highlight",
+      "button": 3
+    },
+    {
+      "type": "button",
+      "x": -62.5,
+      "y": 101.5,
+      "overlay": "switch_pro/select-highlight",
+      "button": 4
+    },
+    {
+      "type": "button",
+      "x": 34.5,
+      "y": 63.5,
+      "overlay": "switch_pro/home-highlight",
+      "button": 5
+    },
+    {
+      "type": "button",
+      "x": 60.5,
+      "y": 101.5,
+      "overlay": "switch_pro/start-highlight",
+      "button": 6
+    },
+    {
+      "type": "button",
+      "x": -36.5,
+      "y": 63.5,
+      "overlay": "switch_pro/screenshot-highlight",
+      "button": 15
+    },
+    {
+      "type": "analog_stick",
+      "x": -138.5,
+      "y": 63.5,
+      "stick_overlay": "switch_pro/stick",
+      "button_overlay": "switch_pro/stick-press",
+      "x_axis": 0,
+      "y_axis": 1,
+      "button": 7
+    },
+    {
+      "type": "analog_stick",
+      "x": 64.5,
+      "y": -5.5,
+      "stick_overlay": "switch_pro/stick",
+      "button_overlay": "switch_pro/stick-press",
+      "x_axis": 2,
+      "y_axis": 3,
+      "button": 8
+    },
+    {
+      "type": "hitpad_buttons",
+      "x": -77.5,
+      "y": -5.5,
+      "up_overlay": "switch_pro/hitpad-up-highlight",
+      "down_overlay": "switch_pro/hitpad-down-highlight",
+      "left_overlay": "switch_pro/hitpad-left-highlight",
+      "right_overlay": "switch_pro/hitpad-right-highlight",
+      "up_button": 11,
+      "down_button": 12,
+      "left_button": 13,
+      "right_button": 14
+    },
+    {
+      "type": "button",
+      "x": -135,
+      "y": 147,
+      "overlay": "switch_pro/left-button-highlight",
+      "button": 9
+    },
+    {
+      "type": "button",
+      "x": 133.5,
+      "y": 147,
+      "overlay": "switch_pro/right-button-highlight",
+      "button": 10
+    },
+    {
+      "type": "analog_button",
+      "x": -149.5,
+      "y": 153.5,
+      "overlay": "switch_pro/left-z-highlight",
+      "direction": "z",
+      "axis": 4
+    },
+    {
+      "type": "analog_button",
+      "x": 148.5,
+      "y": 154,
+      "overlay": "switch_pro/right-z-highlight",
+      "direction": "z",
+      "axis": 5
+    }
+  ]
+}
