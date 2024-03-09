@@ -6,7 +6,8 @@ and speedrunners that want to show their controller's inputs.
 
 ## Downloads
 
-Not yet.
+- Latest release: [0.1-**dev**](https://github.com/whizvox/Total-Controller/releases/tag/v0.1-dev) (use at your own risk)
+- [*All releases*](https://github.com/whizvox/Total-Controller/releases)
 
 ## Technologies
 

@@ -46,6 +46,8 @@ tasks.register('dist', Jar) {
     configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
   }
   [ "**/*.psd" ].each { exclude it }
+  from {[ "$rootProject.projectDir/CREDITS.txt", "$rootProject.projectDir/LICENSE.txt" ]}
+  archiveBaseName = appName
   with jar
 }
 
