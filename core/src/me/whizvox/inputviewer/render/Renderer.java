@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -12,14 +13,58 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Renderer implements Disposable {
 
+  // Program to discard any pixels that have an alpha value of less than 0.5, effectively removing any antialiasing that
+  // is exhibited in any textures.
+  // Most of this is yoinked from SpriteBatch
+  private static ShaderProgram createRoundedAlphaProgram() {
+    String vertexShader = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
+        + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
+        + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
+        + "uniform mat4 u_projTrans;\n" //
+        + "varying vec4 v_color;\n"
+        + "varying vec2 v_texCoords;\n"
+        + "\n"
+        + "void main()\n"
+        + "{\n"
+        + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
+        + "   v_color.a = v_color.a * (255.0/254.0);\n"
+        + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
+        + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
+        + "}\n";
+    String fragmentShader = "#ifdef GL_ES\n"
+        + "#define LOWP lowp\n"
+        + "precision mediump float;\n"
+        + "#else\n"
+        + "#define LOWP \n"
+        + "#endif\n"
+        + "varying LOWP vec4 v_color;\n"
+        + "varying vec2 v_texCoords;\n"
+        + "uniform sampler2D u_texture;\n"
+        + "void main()\n"
+        + "{\n"
+        + "  vec4 texColor = texture2D(u_texture, v_texCoords);"
+        + "  if (texColor.a < 0.5) discard;"
+        + "  else gl_FragColor = v_color * vec4(texColor.rgb, 1.0);"
+        + "}";
+    ShaderProgram program = new ShaderProgram(vertexShader, fragmentShader);
+    if (!program.isCompiled()) {
+      throw new IllegalArgumentException("Could not compile shader program: " + program.getLog());
+    }
+    return program;
+  }
+
   private final SpriteBatch batch;
   private final ShapeRenderer shaper;
   private boolean batchRendering, shaperRendering;
   private final Viewport viewport;
   private final BitmapFont font;
 
-  public Renderer() {
-    batch = new SpriteBatch();
+  public Renderer(boolean roundAlpha) {
+    if (roundAlpha) {
+      batch = new SpriteBatch(1000, createRoundedAlphaProgram());
+    } else {
+      batch = new SpriteBatch();
+    }
     shaper = new ShapeRenderer();
     batchRendering = false;
     shaperRendering = false;

@@ -2,9 +2,7 @@ package me.whizvox.inputviewer;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ScreenUtils;
 import me.whizvox.inputviewer.kbm.InputManager;
 import me.whizvox.inputviewer.render.Renderer;
@@ -88,7 +86,7 @@ public class TotalController extends ApplicationAdapter {
 		} else {
 			saveConfig();
 		}
-		renderer = new Renderer();
+		renderer = new Renderer(config.roundAlpha);
 		textureCache = new TextureCache();
 		input = new InputManager();
 		screen = new SelectProfileScreen();
