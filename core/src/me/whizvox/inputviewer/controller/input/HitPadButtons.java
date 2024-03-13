@@ -1,16 +1,14 @@
 package me.whizvox.inputviewer.controller.input;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import me.whizvox.inputviewer.controller.ControllerState;
 
 public class HitPadButtons extends HitPad {
 
   public final int[] buttons;
 
-  public HitPadButtons(float x, float y, float size, Texture texture, Color tint, Texture[] overlayTextures, Color overlayTint, int[] buttons) {
-    super(x, y, size, texture, tint, overlayTextures, overlayTint);
-    this.buttons = buttons;
+  public HitPadButtons(Properties props) {
+    super(props);
+    this.buttons = props.buttons;
   }
 
 
@@ -32,6 +30,17 @@ public class HitPadButtons extends HitPad {
   @Override
   public boolean isPressingRight(ControllerState state) {
     return state.getButton(buttons[RIGHT]);
+  }
+
+  public static class Properties extends HitPad.Properties {
+
+    public int[] buttons;
+
+    public Properties() {
+      super();
+      buttons = new int[4];
+    }
+
   }
 
 }

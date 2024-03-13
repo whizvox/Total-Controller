@@ -9,7 +9,9 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import me.whizvox.inputviewer.util.json.ColorDeserializer;
 import me.whizvox.inputviewer.util.json.ColorSerializer;
 
+import java.io.IOException;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class JsonHelper {
 
@@ -23,6 +25,18 @@ public class JsonHelper {
     module.addDeserializer(Color.class, new ColorDeserializer());
     MAPPER.registerModule(module);
     MAPPER.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+  }
+
+  public static Color readColor(JsonNode node, Supplier<Color> defaultValue) {
+    try {
+      return MAPPER.readerFor(Color.class).readValue(node);
+    } catch (IOException e) {
+      return defaultValue.get();
+    }
+  }
+
+  public static Color readColor(JsonNode node) {
+    return readColor(node, () -> null);
   }
 
   public static <T> T getOrDefault(JsonNode node, String name, T defaultValue, Function<JsonNode, T> parser) {

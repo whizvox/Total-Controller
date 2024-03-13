@@ -3,7 +3,6 @@ package me.whizvox.inputviewer.controller;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Null;
 import me.whizvox.inputviewer.util.RenderHelper;
 
 public class ControllerComponent {
@@ -13,12 +12,12 @@ public class ControllerComponent {
   public final Texture texture;
   public final Color tint;
 
-  public ControllerComponent(float x, float y, float size, @Null Texture texture, Color tint) {
-    this.x = x;
-    this.y = y;
-    this.size = size;
-    this.texture = texture;
-    this.tint = tint;
+  public ControllerComponent(ComponentProperties props) {
+    x = props.x;
+    y = props.y;
+    size = props.size;
+    texture = props.texture;
+    tint = props.tint;
   }
 
   public void draw(SpriteBatch batch, Texture texture) {

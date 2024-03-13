@@ -18,6 +18,8 @@ import me.whizvox.inputviewer.util.JsonHelper;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +30,7 @@ public class SelectProfileScreen implements Screen {
       KB_RELOAD = "selectProfile.reload",
       KB_NEXT = "selectProfile.next",
       KB_PREV = "selectProfile.prev",
+      KB_OPEN = "selectProfile.open",
       KB_SELECT = "selectProfile.select";
 
   private TotalController app;
@@ -36,6 +39,7 @@ public class SelectProfileScreen implements Screen {
   private List<FileHandle> profileFiles;
   private int selected;
   private TextBox noProfilesText;
+  private float padding;
 
   private void loadProfile(FileHandle file) {
     try (InputStream in = file.read()) {
@@ -46,7 +50,7 @@ public class SelectProfileScreen implements Screen {
         if (file.type() == Files.FileType.Classpath) {
           name = "[Default] " + name;
         }
-        profileTexts.add(new TextBox(app.getRenderer().getFont(), name, -375, 125 - profileTexts.size() * 30));
+        profileTexts.add(new TextBox(app.getRenderer().getFont(), name, app.getRenderer().left + (padding * 3.125F), app.getRenderer().top - (padding * 21.875F) - profileTexts.size() * (padding * 3.75F)));
         profileFiles.add(file);
       } else {
         Gdx.app.log(TAG, "\"name\" property missing from profile: " + file);
@@ -92,6 +96,17 @@ public class SelectProfileScreen implements Screen {
     }
   }
 
+  private void openFolder() {
+    if (Desktop.isDesktopSupported()) {
+      Path profilesPath = Paths.get("profiles");
+      try {
+        Desktop.getDesktop().browse(profilesPath.toUri());
+      } catch (IOException e) {
+        Gdx.app.log(TAG, "Could not browse directory", e);
+      }
+    }
+  }
+
   private void makeSelection() {
     if (selected >= 0 && selected < profileFiles.size()) {
       app.setScreen(new ViewInputsScreen(profileFiles.get(selected)));
@@ -107,16 +122,17 @@ public class SelectProfileScreen implements Screen {
   @Override
   public void create(TotalController app) {
     this.app = app;
-    controlsText = new TextBox(app.getRenderer().getFont(), "[R]: Reload\n[O]: Open profiles folder\n[UP] and [DOWN]: Change selection\n[ENTER]: Choose profile", -395, 295);
+    padding = app.getRenderer().height / 100.0F;
+    controlsText = new TextBox(app.getRenderer().getFont(), "[R]: Reload\n[O]: Open profiles folder\n[UP] and [DOWN]: Change selection\n[ENTER]: Choose profile", app.getRenderer().left + 5, app.getRenderer().top - 5);
     profileTexts = new ArrayList<>();
     profileFiles = new ArrayList<>();
     loadProfiles();
     selected = 0;
-    noProfilesText = new TextBox(app.getRenderer().getFont(), "No profiles found", -400, 0, Color.WHITE, 800, Align.center);
-
+    noProfilesText = new TextBox(app.getRenderer().getFont(), "No profiles found", app.getRenderer().left, 0, Color.WHITE, app.getRenderer().width, Align.center);
     app.getInput().addKeybinding(KB_RELOAD, new Keybinding(Input.Keys.R, false, false, false, false), kb -> loadProfiles());
     app.getInput().addKeybinding(KB_NEXT, new Keybinding(Input.Keys.DOWN), kb -> selectNext());
     app.getInput().addKeybinding(KB_PREV, new Keybinding(Input.Keys.UP), kb -> selectPrevious());
+    app.getInput().addKeybinding(KB_OPEN, new Keybinding(Input.Keys.O), kb -> openFolder());
     app.getInput().addKeybinding(KB_SELECT, new Keybinding(Input.Keys.ENTER), kb -> makeSelection());
   }
 
@@ -130,7 +146,7 @@ public class SelectProfileScreen implements Screen {
       TextBox textBox = profileTexts.get(selected);
       renderer.beginShaper(ShapeRenderer.ShapeType.Filled);
       renderer.getShaper().setColor(Color.PURPLE);
-      renderer.getShaper().rect(textBox.x - 8, textBox.y - textBox.getHeight() - 8, textBox.getWidth() + 16, textBox.getHeight() + 16);
+      renderer.getShaper().rect(textBox.x - padding, textBox.y - textBox.getHeight() - padding, textBox.getWidth() + padding * 2, textBox.getHeight() + padding * 2);
       renderer.beginBatch();
       renderer.draw(controlsText);
       profileTexts.forEach(renderer::draw);
@@ -147,6 +163,7 @@ public class SelectProfileScreen implements Screen {
     app.getInput().removeKeybinding(KB_RELOAD);
     app.getInput().removeKeybinding(KB_NEXT);
     app.getInput().removeKeybinding(KB_PREV);
+    app.getInput().removeKeybinding(KB_OPEN);
     app.getInput().removeKeybinding(KB_SELECT);
   }
 

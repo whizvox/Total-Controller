@@ -10,7 +10,7 @@ public class TextBox {
 
   public BitmapFont font;
   public String text;
-  public int x, y;
+  public float x, y;
   public Color color;
   public float targetWidth;
   public int halign;
@@ -19,7 +19,7 @@ public class TextBox {
   private final GlyphLayout glyphLayout;
   private float width, height;
 
-  public TextBox(BitmapFont font, String text, int x, int y, Color color, float targetWidth, int halign, boolean wrap, String truncate) {
+  public TextBox(BitmapFont font, String text, float x, float y, Color color, float targetWidth, int halign, boolean wrap, String truncate) {
     this.text = text;
     this.x = x;
     this.y = y;
@@ -35,23 +35,23 @@ public class TextBox {
     update();
   }
 
-  public TextBox(BitmapFont font, String text, int x, int y, Color color, float targetWidth, int halign, boolean wrap) {
+  public TextBox(BitmapFont font, String text, float x, float y, Color color, float targetWidth, int halign, boolean wrap) {
     this(font, text, x, y, color, targetWidth, halign, wrap, null);
   }
 
-  public TextBox( BitmapFont font, String text, int x, int y, Color color, float targetWidth, int halign) {
+  public TextBox( BitmapFont font, String text, float x, float y, Color color, float targetWidth, int halign) {
     this(font, text, x, y, color, targetWidth, halign, false, null);
   }
 
-  public TextBox(BitmapFont font, String text, int x, int y, Color color, float targetWidth) {
+  public TextBox(BitmapFont font, String text, float x, float y, Color color, float targetWidth) {
     this(font, text, x, y, color, targetWidth, Align.left, false, null);
   }
 
-  public TextBox(BitmapFont font, String text, int x, int y, Color color) {
+  public TextBox(BitmapFont font, String text, float x, float y, Color color) {
     this(font, text, x, y, color, 0.0F, Align.left, false, null);
   }
 
-  public TextBox(BitmapFont font, String text, int x, int y) {
+  public TextBox(BitmapFont font, String text, float x, float y) {
     this(font, text, x, y, Color.WHITE, 0.0F, Align.left, false, null);
   }
 

@@ -59,7 +59,9 @@ public class Renderer implements Disposable {
   private final Viewport viewport;
   private final BitmapFont font;
 
-  public Renderer(boolean roundAlpha) {
+  public final float width, height, left, right, bottom, top;
+
+  public Renderer(float width, float height, boolean roundAlpha) {
     if (roundAlpha) {
       batch = new SpriteBatch(1000, createRoundedAlphaProgram());
     } else {
@@ -68,9 +70,15 @@ public class Renderer implements Disposable {
     shaper = new ShapeRenderer();
     batchRendering = false;
     shaperRendering = false;
-    viewport = new FitViewport(800, 600);
+    viewport = new FitViewport(width, height);
+    this.width = width;
+    this.height = height;
+    left = -width / 2.0F;
+    right = width / 2.0F;
+    bottom = -height / 2.0F;
+    top = height / 2.0F;
     FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-    parameter.size = 20;
+    parameter.size = (int) (height / 30);
     parameter.magFilter = Texture.TextureFilter.Linear;
     parameter.minFilter = Texture.TextureFilter.Linear;
     FreeTypeFontGenerator gen = new FreeTypeFontGenerator(Gdx.files.classpath("RedHatDisplay-Medium.ttf"));

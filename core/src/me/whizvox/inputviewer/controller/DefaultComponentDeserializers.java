@@ -1,80 +1,65 @@
 package me.whizvox.inputviewer.controller;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import me.whizvox.inputviewer.controller.input.AnalogButton;
-import me.whizvox.inputviewer.controller.input.AnalogStick;
-import me.whizvox.inputviewer.controller.input.Button;
-import me.whizvox.inputviewer.controller.input.HitPadButtons;
-import me.whizvox.inputviewer.util.JsonHelper;
+import me.whizvox.inputviewer.controller.input.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DefaultComponentDeserializers {
 
-  public static final ComponentDeserializer<Button> BUTTON = (context, x, y, size, texture, tint, node) -> {
-    String overlayTexture = JsonHelper.getString(node, "overlay", null);
-    Color overlayTint = JsonHelper.getColor(node, "overlay_tint", Color.RED);
-    int button = node.get("button").asInt();
-    return new Button(x, y, size, texture, tint,
-        overlayTexture == null ? texture : context.getTexture(overlayTexture), overlayTint, button);
+  public static final ComponentDeserializer<Button> BUTTON = (ctx, node) -> {
+    Button.Properties props = ctx.readProperties(node, new Button.Properties());
+    props.overlay = props.texture;
+    ctx.getTexture(node, "overlay", value -> props.overlay = value);
+    ctx.getColor(node, "overlay_tint", value -> props.overlayTint.set(value));
+    ctx.getInt(node, "button", value -> props.button = value);
+    ctx.getBoolean(node, "replace", value -> props.replace = value);
+    return new Button(props);
   };
 
-  public static final ComponentDeserializer<HitPadButtons> HITPAD_BUTTONS = (context, x, y, size, texture, tint, node) -> {
-    Color overlayTint = JsonHelper.getColor(node, "overlay_tint", Color.RED);
-    String[] overlayTextures = {
-        node.get("up_overlay").asText(),
-        node.get("down_overlay").asText(),
-        node.get("left_overlay").asText(),
-        node.get("right_overlay").asText()
-    };
-    int[] buttons = {
-        node.get("up_button").asInt(),
-        node.get("down_button").asInt(),
-        node.get("left_button").asInt(),
-        node.get("right_button").asInt()
-    };
-    return new HitPadButtons(x, y, size, texture, tint,
-        Arrays.stream(overlayTextures).map(context::getTexture).toArray(Texture[]::new),
-        new Color(overlayTint),
-        buttons
-    );
+  public static final ComponentDeserializer<HitPadButtons> HITPAD_BUTTONS = (ctx, node) -> {
+    HitPadButtons.Properties props = ctx.readProperties(node, new HitPadButtons.Properties());
+    ctx.getColor(node, "overlay_tint", value -> props.overlayTint.set(value));
+    ctx.getTexture(node, "up_overlay", value -> props.overlays[HitPad.UP] = value);
+    ctx.getTexture(node, "down_overlay", value -> props.overlays[HitPad.DOWN] = value);
+    ctx.getTexture(node, "left_overlay", value -> props.overlays[HitPad.LEFT] = value);
+    ctx.getTexture(node, "right_overlay", value -> props.overlays[HitPad.RIGHT] = value);
+    ctx.getInt(node, "up_button", value -> props.buttons[HitPad.UP] = value);
+    ctx.getInt(node, "down_button", value -> props.buttons[HitPad.DOWN] = value);
+    ctx.getInt(node, "left_button", value -> props.buttons[HitPad.LEFT] = value);
+    ctx.getInt(node, "right_button", value -> props.buttons[HitPad.RIGHT] = value);
+    return new HitPadButtons(props);
   };
 
-  public static final ComponentDeserializer<AnalogStick> ANALOG_STICK = (context, x, y, size, texture, tint, node) -> {
-    String stickOverlay = node.get("stick_overlay").asText();
-    String buttonOverlay = JsonHelper.getString(node, "button_overlay", null);
-    Color stickTint = JsonHelper.getColor(node, "stick_tint", Color.WHITE);
-    Color buttonTint = JsonHelper.getColor(node, "button_tint", Color.RED);
-    int xAxis = node.get("x_axis").asInt();
-    int yAxis = node.get("y_axis").asInt();
-    int button = JsonHelper.getInt(node, "button", -1);
-    Texture stickOverlayTex = context.getTexture(stickOverlay);
-    return new AnalogStick(x, y, size, texture, tint, stickOverlayTex,
-        buttonOverlay == null ? stickOverlayTex : context.getTexture(buttonOverlay), stickTint, buttonTint, xAxis, yAxis, button);
+  public static final ComponentDeserializer<AnalogStick> ANALOG_STICK = (ctx, node) -> {
+    AnalogStick.Properties props = ctx.readProperties(node, new AnalogStick.Properties());
+    props.buttonOverlay = props.texture;
+    ctx.getTexture(node, "stick_overlay", value -> props.stickOverlay = value);
+    ctx.getTexture(node, "button_overlay", value -> props.buttonOverlay = value);
+    ctx.getColor(node, "stick_tint", value -> props.stickTint = value);
+    ctx.getColor(node, "button_tint", value -> props.buttonTint = value);
+    ctx.getInt(node, "x_axis", value -> props.xAxis = value);
+    ctx.getInt(node, "y_axis", value -> props.yAxis = value);
+    ctx.getInt(node, "button", value -> props.button = value);
+    ctx.getBoolean(node, "invert_x_axis", value -> props.invertXAxis = value);
+    ctx.getBoolean(node, "invert_y_axis", value -> props.invertYAxis = value);
+    return new AnalogStick(props);
   };
 
-  public static final ComponentDeserializer<AnalogButton> ANALOG_BUTTON = (context, x, y, size, texture, tint, node) -> {
-    String overlayTexturePath = JsonHelper.getString(node, "overlay", null);
-    Color overlayTint = JsonHelper.getColor(node, "overlay_tint", Color.RED);
-    String directionStr = JsonHelper.getString(node, "direction", AnalogButton.Direction.POS_X.str);
-    AnalogButton.Direction direction = AnalogButton.Direction.get(directionStr);
-    if (direction == null) {
-      Gdx.app.log(DefaultComponentDeserializers.class.getSimpleName(), "Invalid analog button direction: " + directionStr);
-      direction = AnalogButton.Direction.POS_X;
-    }
-    int axis = node.get("axis").asInt();
-    float minValue = JsonHelper.getFloat(node, "min_value", 0.0F);
-    float maxValue = JsonHelper.getFloat(node, "max_value", 1.0F);
-    return new AnalogButton(x, y, size, texture, tint,
-        overlayTexturePath == null ? texture : context.getTexture(overlayTexturePath), overlayTint, direction, axis,
-        minValue, maxValue);
+  public static final ComponentDeserializer<AnalogButton> ANALOG_BUTTON = (ctx, node) -> {
+    AnalogButton.Properties props = ctx.readProperties(node, new AnalogButton.Properties());
+    props.overlay = props.texture;
+    ctx.getTexture(node, "overlay", value -> props.overlay = value);
+    ctx.getColor(node, "overlay_tint", value -> props.overlayTint = value);
+    ctx.get(node, "direction", value -> props.direction = value, n -> AnalogButton.Direction.get(n.asText()));
+    ctx.getInt(node, "axis", value -> props.axis = value);
+    ctx.getFloat(node, "min_value", value -> props.minValue = value);
+    ctx.getFloat(node, "max_value", value -> props.maxValue = value);
+    return new AnalogButton(props);
   };
 
   public static final Map<String, ComponentDeserializer<?>> ALL;

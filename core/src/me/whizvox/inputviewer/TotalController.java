@@ -86,7 +86,7 @@ public class TotalController extends ApplicationAdapter {
 		} else {
 			saveConfig();
 		}
-		renderer = new Renderer(config.roundAlpha);
+		renderer = new Renderer(config.width, config.height, config.roundAlpha);
 		textureCache = new TextureCache();
 		input = new InputManager();
 		screen = new SelectProfileScreen();
