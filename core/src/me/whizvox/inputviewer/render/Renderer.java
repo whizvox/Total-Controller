@@ -59,7 +59,7 @@ public class Renderer implements Disposable {
   private final Viewport viewport;
   private final BitmapFont font;
 
-  public final float width, height, left, right, bottom, top;
+  public final float width, height, left, right, bottom, top, vw, vh, px;
 
   public Renderer(float width, float height, boolean roundAlpha) {
     if (roundAlpha) {
@@ -77,6 +77,9 @@ public class Renderer implements Disposable {
     right = width / 2.0F;
     bottom = -height / 2.0F;
     top = height / 2.0F;
+    vw = width / 100.0F;
+    vh = height / 100.0F;
+    px = width / 800.0F;
     FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
     parameter.size = (int) (height / 30);
     parameter.magFilter = Texture.TextureFilter.Linear;

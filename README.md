@@ -9,7 +9,7 @@ livestreamers, speedrunners, and video creators that want to show their controll
 
 ## Downloads
 
-- Latest release: [0.1.2-**dev**](https://github.com/whizvox/Total-Controller/releases/tag/v0.1.2-dev) (use at your own
+- Latest release: [0.1.3-**dev**](https://github.com/whizvox/Total-Controller/releases/tag/v0.1.3-dev) (use at your own
 risk)
 - [*All releases*](https://github.com/whizvox/Total-Controller/releases)
 

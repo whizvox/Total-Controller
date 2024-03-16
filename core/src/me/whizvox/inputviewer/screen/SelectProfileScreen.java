@@ -31,7 +31,9 @@ public class SelectProfileScreen implements Screen {
       KB_NEXT = "selectProfile.next",
       KB_PREV = "selectProfile.prev",
       KB_OPEN = "selectProfile.open",
-      KB_SELECT = "selectProfile.select";
+      KB_COPY = "selectProfile.copy",
+      KB_SELECT = "selectProfile.select",
+      KB_INPUTS = "selectProfile.inputs";
 
   private TotalController app;
   private TextBox controlsText;
@@ -50,7 +52,7 @@ public class SelectProfileScreen implements Screen {
         if (file.type() == Files.FileType.Classpath) {
           name = "[Default] " + name;
         }
-        profileTexts.add(new TextBox(app.getRenderer().getFont(), name, app.getRenderer().left + (padding * 3.125F), app.getRenderer().top - (padding * 21.875F) - profileTexts.size() * (padding * 3.75F)));
+        profileTexts.add(new TextBox(app.getRenderer().getFont(), name, app.getRenderer().left + (padding * 3.125F), controlsText.y - controlsText.getHeight() - profileTexts.size() * (padding * 5.0F) - padding * 5.0F));
         profileFiles.add(file);
       } else {
         Gdx.app.log(TAG, "\"name\" property missing from profile: " + file);
@@ -79,6 +81,21 @@ public class SelectProfileScreen implements Screen {
       if (file.exists()) {
         loadProfile(file);
       }
+    }
+  }
+
+  private void copyProfile() {
+    if (selected >= 0 && selected < profileFiles.size()) {
+      FileHandle profileFile = profileFiles.get(selected);
+      FileHandle dest = Gdx.files.local("profiles").child(profileFile.name());
+      int copyNumber = 0;
+      while (dest.exists()) {
+        copyNumber++;
+        dest = dest.parent().child(profileFile.nameWithoutExtension() + " (" + copyNumber + ")." + profileFile.extension());
+      }
+      profileFile.copyTo(dest);
+      Gdx.app.log(TAG, "Copied profile " + profileFile + " to " + dest);
+      loadProfiles();
     }
   }
 
@@ -123,7 +140,7 @@ public class SelectProfileScreen implements Screen {
   public void create(TotalController app) {
     this.app = app;
     padding = app.getRenderer().height / 100.0F;
-    controlsText = new TextBox(app.getRenderer().getFont(), "[R]: Reload\n[O]: Open profiles folder\n[UP] and [DOWN]: Change selection\n[ENTER]: Choose profile", app.getRenderer().left + 5, app.getRenderer().top - 5);
+    controlsText = new TextBox(app.getRenderer().getFont(), "[I]: View raw inputs\n[R]: Reload\n[O]: Open profiles folder\n[C]: Copy profile\n[UP] and [DOWN]: Change selection\n[ENTER]: Choose profile", app.getRenderer().left + 5, app.getRenderer().top - 5);
     profileTexts = new ArrayList<>();
     profileFiles = new ArrayList<>();
     loadProfiles();
@@ -133,7 +150,9 @@ public class SelectProfileScreen implements Screen {
     app.getInput().addKeybinding(KB_NEXT, new Keybinding(Input.Keys.DOWN), kb -> selectNext());
     app.getInput().addKeybinding(KB_PREV, new Keybinding(Input.Keys.UP), kb -> selectPrevious());
     app.getInput().addKeybinding(KB_OPEN, new Keybinding(Input.Keys.O), kb -> openFolder());
+    app.getInput().addKeybinding(KB_COPY, new Keybinding(Input.Keys.C), kb -> copyProfile());
     app.getInput().addKeybinding(KB_SELECT, new Keybinding(Input.Keys.ENTER), kb -> makeSelection());
+    app.getInput().addKeybinding(KB_INPUTS, new Keybinding(Input.Keys.I), kb -> app.setScreen(new InputValuesScreen()));
   }
 
   @Override
@@ -164,7 +183,9 @@ public class SelectProfileScreen implements Screen {
     app.getInput().removeKeybinding(KB_NEXT);
     app.getInput().removeKeybinding(KB_PREV);
     app.getInput().removeKeybinding(KB_OPEN);
+    app.getInput().removeKeybinding(KB_COPY);
     app.getInput().removeKeybinding(KB_SELECT);
+    app.getInput().removeKeybinding(KB_INPUTS);
   }
 
 }

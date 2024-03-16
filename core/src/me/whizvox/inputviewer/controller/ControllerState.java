@@ -2,10 +2,7 @@ package me.whizvox.inputviewer.controller;
 
 import com.badlogic.gdx.controllers.Controller;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class ControllerState {
 
@@ -32,6 +29,14 @@ public class ControllerState {
 
   public float getAxis(int axis) {
     return axes.getOrDefault(axis, 0.0F);
+  }
+
+  public Set<Integer> getButtons() {
+    return Collections.unmodifiableSet(buttons);
+  }
+
+  public Set<Integer> getAxes() {
+    return axes.keySet();
   }
 
   public boolean isConnected() {
